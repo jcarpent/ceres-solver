@@ -62,7 +62,8 @@ namespace ceres {
 // when added with AddResidualBlock().
 class CERES_EXPORT CostFunction {
  public:
-  CostFunction() : num_residuals_(0) {}
+  CostFunction()
+  : num_residuals_(0), jacobian_expressed_relatively_to_the_tangent_(false) {}
   CostFunction(const CostFunction&) = delete;
   void operator=(const CostFunction&) = delete;
 
@@ -123,6 +124,10 @@ class CERES_EXPORT CostFunction {
   int num_residuals() const {
     return num_residuals_;
   }
+  
+  bool JacobianExpressedRelativelyToTheTangent() const {
+    return jacobian_expressed_relatively_to_the_tangent_;
+  }
 
  protected:
   std::vector<int32_t>* mutable_parameter_block_sizes() {
@@ -138,6 +143,13 @@ class CERES_EXPORT CostFunction {
   // number of outputs (residuals).
   std::vector<int32_t> parameter_block_sizes_;
   int num_residuals_;
+  
+protected:
+  
+  // If true, this means that the Jacobian of the current function is expressed
+  // relatively to the tangent of the configuration space, not with respect to
+  // the coordinates of the configuration space.
+  bool jacobian_expressed_relatively_to_the_tangent_;
 };
 
 }  // namespace ceres
