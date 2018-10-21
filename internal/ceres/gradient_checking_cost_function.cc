@@ -79,6 +79,8 @@ class GradientCheckingCostFunction : public CostFunction {
         function->parameter_block_sizes();
     *mutable_parameter_block_sizes() = parameter_block_sizes;
     set_num_residuals(function->num_residuals());
+    
+    jacobian_expressed_relatively_to_the_tangent_ = function->JacobianExpressedRelativelyToTheTangent();
   }
 
   virtual ~GradientCheckingCostFunction() { }

@@ -108,10 +108,16 @@ bool EvaluateCostFunction(
       int global_size = local_parameterizations.at(i)->GlobalSize();
       int local_size = local_parameterizations.at(i)->LocalSize();
       CHECK_EQ(jacobians->at(i).cols(), global_size);
-      Matrix global_J_local(global_size, local_size);
-      local_parameterizations.at(i)->ComputeJacobian(
-          parameters[i], global_J_local.data());
-      local_jacobians->at(i) = jacobians->at(i) * global_J_local;
+      
+      if(function->JacobianExpressedRelativelyToTheTangent()) {
+        local_jacobians->at(i) = jacobians->at(i).leftCols(local_size);
+      }
+      else {
+        Matrix global_J_local(global_size, local_size);
+        local_parameterizations.at(i)->ComputeJacobian(
+                                                       parameters[i], global_J_local.data());
+        local_jacobians->at(i) = jacobians->at(i) * global_J_local;
+      }
     }
   }
   return true;

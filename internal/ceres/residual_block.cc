@@ -140,8 +140,13 @@ bool ResidualBlock::Evaluate(const bool apply_loss_function,
 
         // Apply local reparameterization to the jacobians.
         if (parameter_block->LocalParameterizationJacobian() != NULL) {
-          // jacobians[i] = global_jacobians[i] * global_to_local_jacobian.
-          MatrixMatrixMultiply<Dynamic, Dynamic, Dynamic, Dynamic, 0>(
+          if(cost_function_->JacobianExpressedRelativelyToTheTangent()) {
+            MatrixRef(jacobians[i],num_residuals,parameter_block->LocalSize()) =
+            ConstMatrixRef(global_jacobians[i],num_residuals,parameter_block->Size()).leftCols(parameter_block->LocalSize());
+          }
+          else {
+            // jacobians[i] = global_jacobians[i] * global_to_local_jacobian.
+            MatrixMatrixMultiply<Dynamic, Dynamic, Dynamic, Dynamic, 0>(
               global_jacobians[i],
               num_residuals,
               parameter_block->Size(),
@@ -149,6 +154,7 @@ bool ResidualBlock::Evaluate(const bool apply_loss_function,
               parameter_block->Size(),
               parameter_block->LocalSize(),
               jacobians[i], 0, 0,  num_residuals, parameter_block->LocalSize());
+          }
         }
       }
     }
