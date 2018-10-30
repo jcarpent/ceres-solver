@@ -476,6 +476,10 @@ class CERES_EXPORT Problem {
                 std::vector<double>* residuals,
                 std::vector<double>* gradient,
                 CRSMatrix* jacobian);
+  
+  std::unique_ptr<internal::ProblemImpl> & mutable_problem_impl() {
+    return problem_impl_;
+  }
 
  private:
   friend class Solver;
