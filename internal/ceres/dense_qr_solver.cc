@@ -44,7 +44,7 @@ namespace internal {
 
 DenseQRSolver::DenseQRSolver(const LinearSolver::Options& options)
     : options_(options) {
-  work_.resize(1);
+  work_lapack_.resize(1);
 }
 
 LinearSolver::Summary DenseQRSolver::SolveImpl(
@@ -91,12 +91,12 @@ LinearSolver::Summary DenseQRSolver::SolveUsingLAPACK(
   rhs_.setZero();
   rhs_.head(num_rows) = ConstVectorRef(b, num_rows);
 
-  if (work_.rows() == 1) {
-    const int work_size =
+  if (work_lapack_.rows() == 1) {
+    const int work_lapack_size =
         LAPACK::EstimateWorkSizeForQR(lhs_.rows(), lhs_.cols());
     VLOG(3) << "Working memory for Dense QR factorization: "
-            << work_size * sizeof(double);
-    work_.resize(work_size);
+            << work_lapack_size * sizeof(double);
+    work_lapack_.resize(work_lapack_size);
   }
 
   LinearSolver::Summary summary;
@@ -104,8 +104,8 @@ LinearSolver::Summary DenseQRSolver::SolveUsingLAPACK(
   summary.termination_type = LAPACK::SolveInPlaceUsingQR(lhs_.rows(),
                                                          lhs_.cols(),
                                                          lhs_.data(),
-                                                         work_.rows(),
-                                                         work_.data(),
+                                                         work_lapack_.rows(),
+                                                         work_lapack_.data(),
                                                          rhs_.data(),
                                                          &summary.message);
   event_logger.AddEvent("Solve");

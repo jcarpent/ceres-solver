@@ -104,7 +104,7 @@ class DenseQRSolver: public DenseSparseMatrixSolver {
   const LinearSolver::Options options_;
   ColMajorMatrix lhs_;
   Vector rhs_;
-  Vector work_;
+  Vector work_lapack_;
 };
 
 }  // namespace internal
