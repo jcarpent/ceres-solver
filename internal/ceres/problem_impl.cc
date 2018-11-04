@@ -919,6 +919,10 @@ int ProblemImpl::NumParameterBlocks() const {
 int ProblemImpl::NumParameters() const {
   return program_->NumParameters();
 }
+  
+int ProblemImpl::NumEffectiveParameters() const {
+  return program_->NumEffectiveParameters();
+}
 
 int ProblemImpl::NumResidualBlocks() const {
   return program_->NumResidualBlocks();

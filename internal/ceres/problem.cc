@@ -229,6 +229,10 @@ int Problem::NumParameters() const {
   return problem_impl_->NumParameters();
 }
 
+int Problem::NumEffectiveParameters() const {
+  return problem_impl_->NumEffectiveParameters();
+}
+
 int Problem::NumResidualBlocks() const {
   return problem_impl_->NumResidualBlocks();
 }

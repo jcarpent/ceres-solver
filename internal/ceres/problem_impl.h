@@ -151,6 +151,7 @@ class ProblemImpl {
 
   int NumParameterBlocks() const;
   int NumParameters() const;
+  int NumEffectiveParameters() const;
   int NumResidualBlocks() const;
   int NumResiduals() const;
 

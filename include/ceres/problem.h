@@ -345,6 +345,10 @@ class CERES_EXPORT Problem {
   // The size of the parameter vector obtained by summing over the
   // sizes of all the parameter blocks.
   int NumParameters() const;
+  
+  // The size of the effective parameter vector obtained by summing over the
+  // sizes of all the parameter blocks.
+  int NumEffectiveParameters() const;
 
   // Number of residual blocks in the problem. Always equals
   // residual_blocks().size().
