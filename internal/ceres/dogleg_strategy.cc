@@ -234,7 +234,7 @@ void DoglegStrategy::ComputeTraditionalDoglegStep(double* dogleg) {
   // a = alpha * -gradient
   // b = gauss_newton_step
   const double b_dot_a = -alpha_ * gradient_.dot(gauss_newton_step_);
-  const double a_squared_norm = pow(alpha_ * gradient_norm, 2.0);
+  const double a_squared_norm = pow(alpha_ * gradient_norm, 2);
   const double b_minus_a_squared_norm =
       a_squared_norm - 2 * b_dot_a + pow(gauss_newton_norm, 2);
 
@@ -242,7 +242,7 @@ void DoglegStrategy::ComputeTraditionalDoglegStep(double* dogleg) {
   //   = alpha * -gradient' gauss_newton_step - alpha^2 |gradient|^2
   const double c = b_dot_a - a_squared_norm;
   const double d = sqrt(c * c + b_minus_a_squared_norm *
-                        (pow(radius_, 2.0) - a_squared_norm));
+                        (pow(radius_, 2) - a_squared_norm));
 
   double beta =
       (c <= 0)
